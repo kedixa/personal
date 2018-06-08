@@ -1,4 +1,3 @@
-" last change: 20160102
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
@@ -16,6 +15,8 @@ endfunction
 function! WINDOWS()
     return (has('win16') || has('win32') || has('win64'))
 endfunction
+
+source ~/.vim/plug.vim
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -183,18 +184,6 @@ if has("gui_running")&&LINUX()
 	set guioptions=
 endif
 
-" Bundle
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle 'junegunn/vim-easy-align'
-Bundle 'taglist.vim'
-Bundle 'The-NERD-tree'
-Bundle 'Valloric/YouCompleteMe'
-filetype plugin indent on
-" end Bundle
-
 " vim-easy-align
 map <leader>e <Plug>(EasyAlign)
 
@@ -255,3 +244,15 @@ function! CloseOrOpenYcm()
 	endif
 endfunction
 
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/vim-easy-align'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
+Plug 'sgur/vim-textobj-parameter'
+Plug 'luochen1990/rainbow' " 彩色括号
+call plug#end()
+
+let g:rainbow_active = 1
