@@ -114,68 +114,17 @@ set smartcase " 如果搜索包含大写，不使用 ignorecase
 "nnoremap <leader>c <ESC>mpgg"+yG`p
 "vnoremap <leader>c "+y
 "nnoremap <leader>v <ESC>"+p
-nnoremap <leader>cw :cwindow<CR>
-nnoremap <leader>co :copen<CR>
-nnoremap <leader>cc :cclose<CR>
-nnoremap <leader>cn :cnext<CR>
-nnoremap <leader>cp :cprevious<CR>
-nnoremap <F12> <ESC>mpgg=G`p
+"nnoremap <leader>cw :cwindow<CR>
+"nnoremap <leader>co :copen<CR>
+"nnoremap <leader>cc :cclose<CR>
+"nnoremap <leader>cn :cnext<CR>
+"nnoremap <leader>cp :cprevious<CR>
+"nnoremap <F12> <ESC>mpgg=G`p
 
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
-"注释与反注释
-:autocmd FileType * exec ":call SetNotes()"
-
-func! SetNotes()
-	if &filetype=='cpp' || &filetype=='java'
-		nnoremap <buffer> <leader>a <ESC>:s#^#//<CR>i<ESC>
-		vnoremap <buffer> <leader>a <ESC>:'<,'>s#^#//<CR>i<ESC>
-		nnoremap <buffer> <leader>d <ESC>:s#^\(\s*\)//\(\s*\)#\1\2<CR>i<ESC>
-		vnoremap <buffer> <leader>d <ESC>:'<,'>s#^\(\s*\)//\(\s*\)#\1\2<CR>i<ESC>
-	elseif &filetype=='sh' || &filetype=='py'
-		nnoremap <buffer> <leader>a <ESC>:s/^/#<CR>i<ESC>
-		vnoremap <buffer> <leader>a <ESC>:'<,'>s/^/#<CR>i<ESC>
-		nnoremap <buffer> <leader>d <ESC>:s/^\(\s*\)#\(\s*\)/\1\2<CR>i<ESC>
-		vnoremap <buffer> <leader>d <ESC>:'<,'>s/^\(\s*\)#\(\s*\)/\1\2<CR>i<ESC>
-	endif
-endfunc
-
-"设置编译运行
-map <F9> :call CompileRun()<CR><CR><CR>
-map <F8> :call Run()<CR>
-func! Run()
-	if &filetype=='cpp'
-		exec "!./a.out"
-	elseif &filetype=='java'
-		exec "!java Main"
-	elseif &filetype=='sh'
-		exec "w"
-		exec "!bash %"
-	elseif &filetype=='python'
-		exec "w"
-		exec "!python %"
-	endif
-endfunc
-
-func! CompileRun()
-	exec "w"
-	call SetCompile()
-	exec "make"
-	exec "cw 6"
-endfunc
-
-func! SetCompile()
-	if &filetype=='cpp'
-		set makeprg=g++-5\ -std=c++11\ %
-	elseif &filetype=='java'
-		set makeprg=javac\ %
-	elseif &filetype=='dot'
-		set makeprg=dot\ -Tpng\ -o%<.png\ %
-	endif
-endfunc
 
 if has("gui_running")&&LINUX()
 	" 设置gvim 字体和行间距
@@ -185,7 +134,7 @@ if has("gui_running")&&LINUX()
 endif
 
 " vim-easy-align
-map <leader>e <Plug>(EasyAlign)
+map <leader>ea <Plug>(EasyAlign)
 
 " cpp enhanced highlight
 let g:cpp_class_scope_highlight=1
@@ -193,6 +142,9 @@ let g:cpp_member_variable_highlight=1
 let g:cpp_class_decl_highlight=1
 let g:cpp_experimental_simple_template_highlight=1
 let g:cpp_concepts_highlight=1
+
+" numbers
+map <leader>nt :NumbersToggle<CR>
 
 " taglist
 nnoremap <leader>tt :TlistToggle<CR>
@@ -211,7 +163,17 @@ let Tlist_WinWidth=30 " 窗口宽度
 "let Tlist_Ctags_Cmd='/usr/bin/ctags' " ctags路径
 
 " The-NERD-tree
-nnoremap <leader>l :NERDTreeToggle<CR>
+let g:close_open_tree=0
+function! CloseOpenTree()
+	if g:close_open_tree==1
+		let g:close_open_tree=0
+		exec 'NERDTreeClose'
+	else
+		let g:close_open_tree=1
+		exec 'NERDTreeToggle'
+	endif
+endfunction
+nnoremap <leader>l :call CloseOpenTree()<CR>
 "let loaded_nerd_tree=1 " 禁用NERDTree
 let NERDTreeQuitOnOpen=1 " 打开文件后关闭目录
 let NERDTreeWinPos='left' " 窗口显示位置
@@ -262,6 +224,9 @@ Plug 'sgur/vim-textobj-parameter'
 Plug 'luochen1990/rainbow' " 彩色括号
 Plug 'scrooloose/nerdtree'
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'vim-airline/vim-airline'
+Plug 'scrooloose/nerdcommenter'
+Plug 'myusuf3/numbers.vim'
 call plug#end()
 
 let g:rainbow_active = 1
