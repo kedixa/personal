@@ -187,6 +187,13 @@ endif
 " vim-easy-align
 map <leader>e <Plug>(EasyAlign)
 
+" cpp enhanced highlight
+let g:cpp_class_scope_highlight=1
+let g:cpp_member_variable_highlight=1
+let g:cpp_class_decl_highlight=1
+let g:cpp_experimental_simple_template_highlight=1
+let g:cpp_concepts_highlight=1
+
 " taglist
 nnoremap <leader>tt :TlistToggle<CR>
 nnoremap <leader>tu :TlistUpdate<CR>
@@ -253,6 +260,8 @@ Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
 Plug 'sgur/vim-textobj-parameter'
 Plug 'luochen1990/rainbow' " 彩色括号
+Plug 'scrooloose/nerdtree'
+Plug 'octol/vim-cpp-enhanced-highlight'
 call plug#end()
 
 let g:rainbow_active = 1
