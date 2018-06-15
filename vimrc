@@ -144,7 +144,12 @@ let g:cpp_experimental_simple_template_highlight=1
 let g:cpp_concepts_highlight=1
 
 " numbers
-map <leader>nt :NumbersToggle<CR>
+map <leader>nb :NumbersToggle<CR>
+
+" incsearch
+map / <Plug>(incsearch-forward)
+map ? <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 " taglist
 nnoremap <leader>tt :TlistToggle<CR>
@@ -163,13 +168,10 @@ let Tlist_WinWidth=30 " 窗口宽度
 "let Tlist_Ctags_Cmd='/usr/bin/ctags' " ctags路径
 
 " The-NERD-tree
-let g:close_open_tree=0
 function! CloseOpenTree()
-	if g:close_open_tree==1
-		let g:close_open_tree=0
+	if exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
 		exec 'NERDTreeClose'
 	else
-		let g:close_open_tree=1
 		exec 'NERDTreeToggle'
 	endif
 endfunction
@@ -227,6 +229,11 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdcommenter'
 Plug 'myusuf3/numbers.vim'
+Plug 'tpope/vim-surround'
+Plug 'Raimondi/delimitMate'
+Plug 'haya14busa/incsearch.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'kana/vim-textobj-line'
 call plug#end()
 
 let g:rainbow_active = 1
